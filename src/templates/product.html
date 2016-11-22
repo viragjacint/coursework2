@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Main Content -->
+    <div class="container m-t-3">
+      <div class="row">       
+
+        <!-- Product List -->
+        <div class="col-sm-12">
+          <div class="title"><span>Mens shoes</span></div>
+          {% for item in rows %}
+          <div class="col-sm-4 col-md-3 box-product-outer">
+            <div class="box-product">
+              <div class="img-wrapper">
+                <a href="{{ url_for('details', id=item.id) }}">
+                  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}">
+                </a>                
+                <div class="option">
+                  <a href="#" data-toggle="tooltip" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>                  
+                </div>
+              </div>
+              <h6><a href="{{ url_for('details', id=item.ID) }}">{{ item.product_name }}</a></h6>
+              <div class="price">
+                <div><p>Price: &pound;{{item.product_price}}</p></div>                
+              </div>              
+            </div>
+          </div>
+		  {% endfor %}    
+          </div>          
+        </div>
+        <!-- End Product List -->
+
+      </div>
+    </div>
+    <!-- End Main Content -->
+{% endblock %}

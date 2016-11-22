@@ -6,7 +6,6 @@
 .owl-theme .owl-controls{
 	margin-top: 10px;
 	text-align: center;
-	margin-left:-25px;
 }
 
 /* Styling Next and Prev buttons */
@@ -28,8 +27,6 @@
 }
 /* Clickable class fix problem with hover on touch devices */
 /* Use it for non-touch hover action */
-
-
 .owl-theme .owl-controls.clickable .owl-buttons div:hover{
 	filter: Alpha(Opacity=100);/*IE7 fix*/
 	opacity: 1;

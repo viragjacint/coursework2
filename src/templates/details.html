@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Main Content -->
+	{% for item in rows %}
+    <div class="container m-t-3">      
+	  <div class="row">
+
+        <!-- Image List -->		
+        <div class="col-sm-4">
+          <div class="image-detail">
+            <img src="{{ url_for('static', filename='img/product/'+item.product_image) }}"  alt="">
+          </div>
+          <div class="products-slider-detail m-b-2">
+            <a href="#"><img src="{{ url_for('static', filename='img/product/'+item.product_image) }}" data-zoom-image="{{ url_for('static', filename='img/product/'+item.product_image) }}" alt="" class="img-thumbnail"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/product/'+item.product_image2) }}" data-zoom-image="{{ url_for('static', filename='img/product/'+item.product_image2) }}" alt="" class="img-thumbnail"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/product/'+item.product_image3) }}" data-zoom-image="{{ url_for('static', filename='img/product/'+item.product_image3) }}" alt="" class="img-thumbnail"></a>
+            <a href="#"><img src="{{ url_for('static', filename='img/product/'+item.product_image4) }}" data-zoom-image="{{ url_for('static', filename='img/product/'+item.product_image4) }}" alt="" class="img-thumbnail"></a>
+          </div>	  
+        </div>
+        <!-- End Image List -->
+
+        <div class="col-sm-8">
+          <div class="title-detail">{{item.name}}</div>
+          <table class="table table-detail">
+            <tbody>
+              <tr>
+                <td>Price</td>
+                <td>
+                  <div>
+                    <div>
+					&pound;{{item.product_price}}    
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Availability</td>
+                <td><span class="label label-success arrowed">Ready Stock</span></td>
+              </tr>
+              <tr>
+                <td>Quantity</td>
+                <td>
+                  <div>
+                    <input type="text" value="1" style = "width:80px;" class="form-control text-center"/>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Size</td>
+                <td>
+                  <select class="selectpicker" data-width="80px">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                    <option value="XXL">XXL</option>
+                  </select>
+                </td>
+              </tr>
+				<tr>
+				<td>Description</td>
+				<td>
+				  {{item.product_desc}}
+				</td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>
+                  <button class="btn btn-theme m-b-1" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </div>		
+      </div>	  
+    </div>
+	{% endfor %}
+    <!-- End Main Content -->	
+	
+{% endblock %}

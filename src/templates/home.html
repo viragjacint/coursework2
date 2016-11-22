@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+<!-- Full Slider -->
+    <div class="container-fluid">
+      <div class="row">			
+            <img style="width:100%" src="{{ url_for('static', filename='img/slider/1.jpg') }}" alt="Slider">  
+      </div>
+    </div>
+<!-- End Full Slider -->
+<!-- Main Content -->
+    <div class="container m-t-2">
+      <div class="row">       
+
+        <!-- Featured -->		
+        <div class="col-md-12">
+          <div class="title"><span>Featured Products</span></div>
+		  {% for item in rows %}
+          <div class="col-sm-4 col-md-3 box-product-outer">
+            <div class="box-product">
+              <div class="img-wrapper">
+                <a href="{{ url_for('details', id=item.id) }}">
+                  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}">
+                </a>                
+                <div class="option">
+                  <a href="#" data-toggle="tooltip" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>                  
+                </div>
+              </div>
+              <h6><a href="{{ url_for('details', id=item.ID) }}">{{ item.product_name }}</a></h6>
+              <div class="price">
+                <div><p>Price: &pound;{{item.product_price}}</p></div>                
+              </div>              
+            </div>
+          </div>
+		  {% endfor %}          
+        </div>
+        <!-- End Featured -->
+
+        
+		</div>
+      </div>
+    </div>
+    <!-- End Main Content -->
+{% endblock %}
