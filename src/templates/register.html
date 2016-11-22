@@ -2,44 +2,46 @@
 {% block content %}
 <!-- Main Content -->
     <div class="container m-t-3">
-      <div class="row">
-
+      <div class="row">		
         <!-- Register Form -->
+		{% if error %}
+		<p style="color:red;"><strong>Error:</strong> {{ error }}
+		{% endif %}
         <div class="col-sm-8 login-register-form m-b-3">
           <div class="title"><span>Create An Account</span></div>
           <div class="row">
-            <form>
+            <form action="{{ url_for('reg') }}" method="post">
               <div class="form-group col-sm-6">
                 <label for="firstname">First Name</label>
-                <input type="text" class="form-control" id="firstname" placeholder="First name">
+                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" required>
               </div>
 			  <div class="form-group col-sm-6">
                 <label for="surname">Surname</label>
-                <input type="text" class="form-control" id="surname" placeholder="Surname">
+                <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname" required>
               </div>
               <div class="form-group col-sm-6">
-                <label for="emailInput">Email address</label>
-                <input type="email" class="form-control" id="emailInput" placeholder="Email">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
               </div>
               <div class="form-group col-sm-6">
-                <label for="passwordInput">Password</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Password">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
               </div>
 			  <div class="form-group col-sm-6">
                 <label for="town">Town</label>
-                <input type="password" class="form-control" id="town" placeholder="Town">
+                <input type="text" class="form-control" id="town" name="town" placeholder="Town" required>
               </div>
 			  <div class="form-group col-sm-6">
                 <label for="postcode">Postcode</label>
-                <input type="postcode" class="form-control" id="postcode" placeholder="Postcode">
+                <input type="postcode" class="form-control" id="postcode" name="postcode" placeholder="Postcode" required>
               </div>
 			  <div class="form-group col-sm-6">
                 <label for="address1">Address line 1</label>
-                <input type="address1" class="form-control" id="address1" placeholder="Address line 1">
+                <input type="text" class="form-control" id="address1" name="address1" placeholder="Address line 1" required>
               </div>
 			  <div class="form-group col-sm-6">
                 <label for="address2">Address line 2</label>
-                <input type="address2" class="form-control" id="address2" placeholder="Address line 2">
+                <input type="text" class="form-control" id="address2" name="address2" placeholder="Address line 2">
               </div>             
               <div class="col-xs-12">
                 <button type="submit" class="btn btn-theme"><i class="fa fa-long-arrow-right"></i> Register</button>

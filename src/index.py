@@ -53,10 +53,45 @@ def root():
 	connection.close()
 	return render_template('home.html', rows = rows)	
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():	
 	return render_template('register.html')
+	
+@app.route('/reg', methods=['GET', 'POST'])
+def reg():
+	if request.method == 'POST':
+		email = request.form['email']
+		first_name = request.form['firstname']
+		last_name = request.form['surname']
+		address = request.form['address1']
+		address2 = request.form['address2']
+		town = request.form['town']
+		postcode = request.form['postcode']
+		email = request.form['email']
+		password = request.form['password']
+		sql = ('SELECT * FROM customers WHERE email = ?')
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row 
+		c = connection.cursor()
+		c.execute(sql, [email])
+		id_exists = c.fetchone()
+		connection.close()
+		if id_exists:
+			error = 'The email address: ' + id_exists['email'] + " is already exist!"
+			return render_template('register.html', error = error)
+		else:
+			sql2 = ('INSERT INTO customers (first_name, last_name, address, address2, town, postcode, email, password) VALUES (?,?,?,?,?,?,?,?)')			    		
+			connection = sqlite3.connect(app.config['db_location'])
+			connection.row_factory = sqlite3.Row 
+			connection.cursor().execute(sql2, (first_name, last_name, address, address2, town, postcode, email, password))
+			connection.commit()
+			connection.close()
+			success = "You have successfully registered. Please sign in!"
+			return render_template('login.html', success = success)	
+	else:
+		print 'You are not allowed here'
 
+	
 @app.route('/cart')
 def cart():	
 	return render_template('cart.html')	
@@ -87,15 +122,28 @@ def login():
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
 	error = None
-	if request.method == 'POST':
-		if request.form['username'] != app.config['username']:
-			error = 'Invalid username'
-		elif request.form['password'] != app.config['password']:
-			error = 'Invalid password'
-		else:
-			session['user'] = True
-			session['username'] = 'Jacint'
-			return redirect(url_for('root'))
+	if not session['user']:
+		if request.method == 'POST':
+			sql = ('SELECT * FROM customers WHERE email = ?')
+			email = request.form['email']
+			connection = sqlite3.connect(app.config['db_location'])
+			connection.row_factory = sqlite3.Row 
+			c = connection.cursor()
+			c.execute(sql, [email])
+			customer = c.fetchone()
+			connection.close()		
+			if customer:			
+				if request.form['password'] != customer['password']:
+					error = 'Invalid password'
+				else:
+					session['user'] = True
+					session['username'] = customer['first_name']
+					return redirect(url_for('root'))
+			else:
+				error = "User doesn't exist. Please register"
+				return render_template('register.html', error=error)
+	else:
+		error = session['username'] + " is already logged in. Please sign out first!"
 	return render_template('login.html', error=error)
 
 @app.route('/sign_out')
