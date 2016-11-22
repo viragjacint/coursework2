@@ -7,7 +7,10 @@
         <!-- Shopping Cart List -->
         <div class="col-md-12">
           <div class="title"><span>My Shopping Cart</span></div>
-          <div class="table-responsive">
+		  {% if not rows %}
+		  <p style="margin-bottom: 50px;"><strong>Your cart is empty!</strong></p>
+		  {% else %}
+          <div class="table-responsive">			
             <table class="table table-bordered table-cart">
               <thead>
                 <tr>
@@ -20,6 +23,7 @@
                 </tr>
               </thead>
               <tbody>
+				{% for item in rows %}
                 <tr>
                   <td class="img-cart">
                     <a href="detail.html">
@@ -27,77 +31,22 @@
                     </a>
                   </td>
                   <td>
-                    <p><a href="detail.html" class="d-block">WranglerGrey Printed Slim Fit Round Neck T-Shirt</a></p>
-                    <small>Size : S</small>
+                    <p><a href="detail.html" class="d-block">{{ item.item }}</a></p>
+                    <small>Size : {% filter upper %}{{ item.size }}{% endfilter %}</small>
                   </td>
-                  <td class="input-qty"><input type="text" value="1" class="form-control text-center" /></td>
-                  <td class="unit">$13.50</td>
-                  <td class="sub">$13.50</td>
+                  <td class="unit">{{ item.quantity }}</td>
+                  <td class="unit">{{ item.price }}</td>
+                  <td class="sub">{{ item.quantity }}</td>
                   <td class="action">
                     <a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Update"><i class="fa fa-refresh"></i></a>&nbsp;
                     <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
                   </td>
                 </tr>
-                <tr>
-                  <td class="img-cart">
-                    <a href="detail.html">
-                      <img alt="Product" src="images/demo/p2-small-1.jpg" class="img-thumbnail">
-                    </a>
-                  </td>
-                  <td>
-                    <p><a href="detail.html" class="d-block">CelioKhaki Printed Round Neck T-Shirt</a></p>
-                    <small>Size : M</small>
-                  </td>
-                  <td class="input-qty"><input type="text" value="1" class="form-control text-center" /></td>
-                  <td class="unit">$13.50</td>
-                  <td class="sub">$13.50</td>
-                  <td class="action">
-                    <a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Update"><i class="fa fa-refresh"></i></a>&nbsp;
-                    <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="img-cart">
-                    <a href="detail.html">
-                      <img alt="Product" src="images/demo/p3-small-1.jpg" class="img-thumbnail">
-                    </a>
-                  </td>
-                  <td>
-                    <p><a href="detail.html" class="d-block">CelioOff White Printed Round Neck T-Shirt</a></p>
-                    <small>Size : L</small>
-                  </td>
-                  <td class="input-qty"><input type="text" value="1" class="form-control text-center" /></td>
-                  <td class="unit">$13.50</td>
-                  <td class="sub">$13.50</td>
-                  <td class="action">
-                    <a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Update"><i class="fa fa-refresh"></i></a>&nbsp;
-                    <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="img-cart">
-                    <a href="detail.html">
-                      <img alt="Product" src="images/demo/p4-small-1.jpg" class="img-thumbnail">
-                    </a>
-                  </td>
-                  <td>
-                    <p><a href="detail.html" class="d-block">Levi'sNavy Blue Printed Round Neck T-Shirt</a></p>
-                    <small>Size : XL</small>
-                  </td>
-                  <td class="input-qty"><input type="text" value="1" class="form-control text-center" /></td>
-                  <td class="unit">$13.50</td>
-                  <td class="sub">$13.50</td>
-                  <td class="action">
-                    <a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Update"><i class="fa fa-refresh"></i></a>&nbsp;
-                    <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="4" class="text-right">Total</td>
-                  <td colspan="2"><b>$54.00</b></td>
-                </tr>
+				{% endfor %}
+				{% endif %}
               </tbody>
             </table>
+			
           </div>
           <nav aria-label="Shopping Cart Next Navigation">
             <ul class="pager">

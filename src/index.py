@@ -94,7 +94,22 @@ def reg():
 	
 @app.route('/cart')
 def cart():	
-	return render_template('cart.html')	
+	if session.get('user'):
+		sql = ('SELECT * FROM cart WHERE customer_id = ?')
+		id = session.get('id')
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql, [id]).fetchall()
+		connection.close()	
+		return render_template('cart.html', rows = rows)
+	else:
+		sql = ('SELECT * FROM cart WHERE customer_id = 0')		
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql).fetchall()
+		connection.close()	
+		return render_template('cart.html', rows = rows)
+		
 
 @app.route('/product')
 def product():
@@ -122,10 +137,10 @@ def login():
 @app.route('/sign_in', methods=['GET', 'POST'])
 def sign_in():
 	error = None
-	if not session['user']:
+	if not session.get('user'):
 		if request.method == 'POST':
 			sql = ('SELECT * FROM customers WHERE email = ?')
-			email = request.form['email']
+			email = request.form['email']			
 			connection = sqlite3.connect(app.config['db_location'])
 			connection.row_factory = sqlite3.Row 
 			c = connection.cursor()
@@ -138,6 +153,7 @@ def sign_in():
 				else:
 					session['user'] = True
 					session['username'] = customer['first_name']
+					session['id'] = customer['ID']
 					return redirect(url_for('root'))
 			else:
 				error = "User doesn't exist. Please register"
