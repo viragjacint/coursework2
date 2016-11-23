@@ -111,6 +111,20 @@ def cart():
 		return render_template('cart.html', rows = rows)
 		
 
+@app.route('/search', methods=['GET', 'POST'])
+def search():	
+	if request.method == 'POST':
+		search = request.form['search']
+		sql = 'SELECT * FROM product_list WHERE product_name LIKE "%'+search+'%" OR product_desc LIKE "%'+search+'%"'
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql).fetchall()
+		connection.close()
+		return render_template('search.html', rows = rows)
+	else:		
+		return render_template('search.html')
+		
+		
 @app.route('/product')
 def product():
 	sql = ('SELECT * FROM product_list')

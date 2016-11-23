@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block content %}
+	<!-- Main Content -->
+	<div class="container m-t-3">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="title">
+					<span>My Shopping Cart</span>
+				</div>
+				{% if not rows %}
+				  <p style="margin-bottom: 50px;"><strong>No result found!</strong></p>				
+				{% else %}
+				<div class="table-responsive">			
+					<table class="table table-bordered table-cart">
+					  <thead>
+						<tr>
+							<th>Image</th>
+						  <th>Product</th>
+						  <th>Description</th>						  
+						  <th>Unit price</th>						  
+						</tr>
+					  </thead>
+					  <tbody>
+						{% for item in rows %}
+						<tr>
+						  <td class="img-cart">
+							<a href="{{ url_for('details', id=item.ID) }}">
+							  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}" class="img-thumbnail">
+							</a>
+						  </td>
+						  <td>
+							<p><a href="{{ url_for('details', id=item.ID) }}" class="d-block">{{ item.product_name }}</a></p>							
+						  </td>
+							<td>
+							<p>{{ item.product_desc }}</p>							
+						  </td>	
+						  <td class="unit">&pound;{{ item.product_price }}</td>						  
+						</tr>
+						{% endfor %}
+						{% endif %}
+					  </tbody>
+					</table>
+				</div>
+		</div>
+	</div>
+	
+<!-- End Main Content -->
+{% endblock %}
