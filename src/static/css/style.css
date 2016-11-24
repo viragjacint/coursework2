@@ -842,10 +842,10 @@ input[type=radio]:checked + span::before {
   font-weight: normal;
   display: inline-block;
   padding: 0 4px;
-  color: #5CB85C;
+  color: white;
 }
 .box-product .img-wrapper > .option > a:hover {
-  color: #E53935;
+  color: #333;
 }
 .box-product .img-wrapper > .option > a.wishlist:hover {
   color: #ef5350;

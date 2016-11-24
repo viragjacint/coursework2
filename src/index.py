@@ -109,8 +109,22 @@ def cart():
 		rows = connection.cursor().execute(sql).fetchall()
 		connection.close()	
 		return render_template('cart.html', rows = rows)
-		
 
+@app.route('/add', methods=['GET', 'POST'])
+def add():	
+	if session.get('user'):
+		if request.method == 'POST':
+			sql = ('INSERT INTO cart (customer_id,item,quantity, price, size, item_id, item_img, total) VALUES (?,?,?,?,?,?,?,?)')
+			customer_id = session.get('id')
+			get_id = request.form['id']
+			total = int(request.form['price']) * int(request.form['quantity'])
+			connection = sqlite3.connect(app.config['db_location'])
+			connection.row_factory = sqlite3.Row     		
+			connection.cursor().execute(sql, (customer_id,request.form['name'],request.form['quantity'],request.form['price'],request.form['size'],request.form['id'],request.form['img'], total ))
+			connection.commit()
+			connection.close()			
+			return redirect(url_for('cart'))			
+				
 @app.route('/search', methods=['GET', 'POST'])
 def search():	
 	if request.method == 'POST':

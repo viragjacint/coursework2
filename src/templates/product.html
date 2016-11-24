@@ -5,27 +5,26 @@
       <div class="row">       
 
         <!-- Product List -->
-        <div class="col-sm-12">
-          <div class="title"><span>Mens shoes</span></div>
-          {% for item in rows %}
+        <div class="col-md-12">
+          <div class="title"><span>Men shoes</span></div>
+		  {% for item in rows %}
           <div class="col-sm-4 col-md-3 box-product-outer">
             <div class="box-product">
               <div class="img-wrapper">
-                <a href="{{ url_for('details', id=item.id) }}">
+				<span class="label label-success">{{ item.product_name }}</span>
+                <a href="{{ url_for('details', id=item.ID) }}">
                   <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}">
                 </a>                
                 <div class="option">
-                  <a href="#" data-toggle="tooltip" title="Add to Cart"><i class="fa fa-shopping-cart"></i></a>                  
+                  <a href="{{ url_for('details', id=item.ID)}}" data-toggle="tooltip" title="Find out more"><i class="fa fa-info-circle" aria-hidden="true"> More details</i></a>                  
                 </div>
-              </div>
-              <h6><a href="{{ url_for('details', id=item.ID) }}">{{ item.product_name }}</a></h6>
+              </div>              
               <div class="price">
-                <div><p>Price: &pound;{{item.product_price}}</p></div>                
+                <div><p><br><strong>Price: &pound;{{item.product_price}}</strong></p></div>				
               </div>              
             </div>
           </div>
-		  {% endfor %}    
-          </div>          
+		  {% endfor %}          
         </div>
         <!-- End Product List -->
 

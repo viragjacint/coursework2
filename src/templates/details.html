@@ -4,8 +4,7 @@
 <!-- Main Content -->
 	{% for item in rows %}
     <div class="container m-t-3">      
-	  <div class="row">
-
+	  <div class="row">			
         <!-- Image List -->		
         <div class="col-sm-4">
           <div class="image-detail">
@@ -21,14 +20,19 @@
         <!-- End Image List -->
 
         <div class="col-sm-8">
-          <div class="title-detail">{{item.name}}</div>
+          <form action="{{ url_for('add') }}" method="post">
+		  <div class="title-detail">{{item.product_name}}</div>
+		  <input type="hidden" id="name" name="name" value="{{item.product_name}}"/>
+		  <input type="hidden" id="img" name="img" value="{{item.product_image}}"/>
+		  <input type="hidden" id="id" name="id" value="{{item.ID}}"/>
+		  <input type="hidden" id="price" name="price" value="{{item.product_price}}"/>
           <table class="table table-detail">
             <tbody>
               <tr>
                 <td>Price</td>
                 <td>
                   <div>
-                    <div>
+                    <div>					
 					&pound;{{item.product_price}}    
                   </div>
                 </td>
@@ -41,14 +45,14 @@
                 <td>Quantity</td>
                 <td>
                   <div>
-                    <input type="text" value="1" style = "width:80px;" class="form-control text-center"/>
+                    <input type="text" value="1" id="quantity" name="quantity" style = "width:80px;" class="form-control text-center"/>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>Size</td>
                 <td>
-                  <select class="selectpicker" data-width="80px">
+                  <select id="size" name="size" class="selectpicker" data-width="80px">
                     <option value="S">S</option>
                     <option value="M">M</option>
                     <option value="L">L</option>
@@ -66,14 +70,15 @@
               <tr>
                 <td></td>
                 <td>
-                  <button class="btn btn-theme m-b-1" type="button"><i class="fa fa-shopping-cart"></i> Add to Cart</button>                  
+                  <button class="btn btn-theme m-b-1" type="submit"><i class="fa fa-shopping-cart"></i> Add to Cart</button>                  
                 </td>
               </tr>
             </tbody>
           </table>
           </div>
         </div>		
-      </div>	  
+      </div>
+	</form>
     </div>
 	{% endfor %}
     <!-- End Main Content -->	
