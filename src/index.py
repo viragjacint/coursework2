@@ -3,6 +3,7 @@ from werkzeug import secure_filename
 import sqlite3
 import ConfigParser
 import os
+import socket
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -103,10 +104,11 @@ def cart():
 		connection.close()	
 		return render_template('cart.html', rows = rows)
 	else:
-		sql = ('SELECT * FROM cart WHERE customer_id = 0')		
+		sql = ('SELECT * FROM cart WHERE customer_id = ?')		
+		id = socket.gethostbyname(socket.gethostname())
 		connection = sqlite3.connect(app.config['db_location'])
 		connection.row_factory = sqlite3.Row     		
-		rows = connection.cursor().execute(sql).fetchall()
+		rows = connection.cursor().execute(sql, [id]).fetchall()
 		connection.close()	
 		return render_template('cart.html', rows = rows)
 
@@ -123,8 +125,19 @@ def add():
 			connection.cursor().execute(sql, (customer_id,request.form['name'],request.form['quantity'],request.form['price'],request.form['size'],request.form['id'],request.form['img'], total ))
 			connection.commit()
 			connection.close()			
-			return redirect(url_for('cart'))			
-				
+			return redirect(url_for('cart'))
+	else:	
+		sql = ('INSERT INTO cart (customer_id,item,quantity, price, size, item_id, item_img, total) VALUES (?,?,?,?,?,?,?,?)')
+		customer_id = socket.gethostbyname(socket.gethostname())
+		get_id = request.form['id']
+		total = int(request.form['price']) * int(request.form['quantity'])
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		connection.cursor().execute(sql, (customer_id,request.form['name'],request.form['quantity'],request.form['price'],request.form['size'],request.form['id'],request.form['img'], total ))
+		connection.commit()
+		connection.close()			
+		return redirect(url_for('cart'))
+
 @app.route('/search', methods=['GET', 'POST'])
 def search():	
 	if request.method == 'POST':
@@ -138,6 +151,73 @@ def search():
 	else:		
 		return render_template('search.html')
 		
+
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+	error = None
+	if request.method == 'POST':
+		if request.form['username'] != app.config['username']:
+			error = 'Invalid username'
+		elif request.form['password'] != app.config['password']:
+			error = 'Invalid password'
+		else:
+			session['admin'] = True			
+			return redirect(url_for('admin_prod'))
+	return render_template('admin_login.html', error=error)	
+	
+
+@app.route('/admin_logout')
+def admin_logout():
+    session.pop('admin', None)    
+    return redirect(url_for('admin'))
+	
+@app.route('/admin_prod', methods=['GET', 'POST'])
+def admin_prod():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		sql = ('SELECT * FROM product_list')
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql).fetchall()		
+		return render_template('admin_prod.html', rows = rows)	
+		
+@app.route('/admin_cust', methods=['GET', 'POST'])
+def admin_cust():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		sql = ('SELECT * FROM customers')
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql).fetchall()		
+		return render_template('admin_cust.html', rows = rows)		
+
+@app.route('/delete_prod')
+def delete_prod():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		get_id = request.args.get('id')	
+		sql = ('DELETE FROM product_list WHERE id = ?')		
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		connection.cursor().execute(sql, [get_id])
+		connection.commit()	
+		return redirect(url_for('admin_prod'))
+		
+@app.route('/delete_cust')
+def delete_cust():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		get_id = request.args.get('id')	
+		sql = ('DELETE FROM customers WHERE id = ?')		
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		connection.cursor().execute(sql, [get_id])
+		connection.commit()	
+		return redirect(url_for('admin_cust'))
 		
 @app.route('/product')
 def product():
@@ -195,6 +275,16 @@ def sign_out():
     session.pop('user', None)    
     return redirect(url_for('root'))
 	
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+	get_id = request.args.get('id')	
+	sql = ('DELETE FROM cart WHERE id = ?')		
+	connection = sqlite3.connect(app.config['db_location'])
+	connection.row_factory = sqlite3.Row     		
+	connection.cursor().execute(sql, [get_id])
+	connection.commit()	
+	return redirect(url_for('cart'))
+
 if __name__ == '__main__':
 	init(app)
 	logs(app)

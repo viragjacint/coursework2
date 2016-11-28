@@ -1,0 +1,58 @@
+{% extends "admin.html" %}
+{% block content %}
+<div id="page-wrapper">
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Products					
+				</h1>
+				<div class="table-responsive">			
+					<table class="table table-bordered table-cart">
+					  <thead>
+						<tr>
+							<th>Image</th>
+						  <th>Product</th>
+						  <th>Description</th>						  
+						  <th>Unit price</th>
+						  <th>Edit</th>
+						  <th>Remove</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						{% for item in rows %}
+						<tr>
+						  <td>
+							<a href="{{ url_for('details', id=item.ID) }}">
+							  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}" class="img-thumbnail">
+							</a>
+						  </td>
+						  <td>
+							<p>{{ item.product_name }}</p>							
+						  </td>
+							<td>
+							<p>{{ item.product_desc }}</p>							
+						  </td>	
+						  <td>
+						  &pound;{{ item.product_price }}
+						  </td>
+						  <td>
+							<a href="{{ url_for('delete_cust', id = item.ID ) }}">Edit</a>
+						  </td>
+						  <td>                    
+							<a href="{{ url_for('delete_prod', id = item.ID ) }}"><i class="fa fa-trash-o"></i></a>
+						  </td>
+						</tr>
+						{% endfor %}
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+
+</div>
+        <!-- /#page-wrapper -->
+
+{% endblock %}

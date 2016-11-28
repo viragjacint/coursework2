@@ -27,7 +27,7 @@
                 <tr>
                   <td class="img-cart">
                     <a href="detail.html">
-                      <img alt="Product" src="images/demo/p1-small-1.jpg" class="img-thumbnail">
+                      <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.item_img) }}" class="img-thumbnail">
                     </a>
                   </td>
                   <td>
@@ -35,13 +35,13 @@
                     <small>Size : {% filter upper %}{{ item.size }}{% endfilter %}</small>
                   </td>
                   <td class="unit">{{ item.quantity }}</td>
-                  <td class="unit">{{ item.price }}</td>
-                  <td class="sub">{{item.total}}</td>
-                  <td class="action">
-                    <a href="#" data-toggle="tooltip" data-placement="top" data-original-title="Update"><i class="fa fa-refresh"></i></a>&nbsp;
-                    <a href="#" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
+                  <td class="unit">&pound;{{ item.price }}</td>
+                  <td class="sub">&pound;{{item.total}}</td>
+                  <td class="action">                    
+                    <a href="{{ url_for('delete', id = item.ID ) }}" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
                   </td>
                 </tr>
+				<p>Total:{{ z_total }} </p>
 				{% endfor %}
 				{% endif %}
               </tbody>

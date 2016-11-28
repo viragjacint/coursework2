@@ -1,0 +1,66 @@
+{% extends "admin.html" %}
+{% block content %}
+<div id="page-wrapper">
+	<div class="container-fluid">
+
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Customers					
+				</h1>
+				<div class="table-responsive">			
+					<table class="table table-bordered table-cart">
+					  <thead>
+						<tr>
+							<th>ID</th>
+							<th>First Name</th>
+							<th>Surname</th>
+							<th>Address</th>						  
+							<th>Town</th>
+							<th>Postcode</th>
+							<th>Email</th>							
+							<th>Remove</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						{% for c in rows %}
+						<tr>
+						  <td>
+							{{ c.ID }}
+						  </td>
+						  <td>
+							{{ c.first_name }}							
+						  </td>
+						  <td>
+							{{ c.last_name }}						
+						  </td>
+						  <td>
+							{{ c.address }}
+						  </td>
+						  <td>
+							{{ c.town }}
+						  </td>
+						  <td>
+							{{ c.postcode }}
+						  </td>
+						  <td>
+							{{ c.email }}
+						  </td>						  
+						  <td>
+							<a href="{{ url_for('delete_cust', id = c.ID ) }}"><i class="fa fa-trash-o"></i></a>
+						  </td>
+							
+						  
+						</tr>
+						{% endfor %}
+			</div>
+		</div>
+		<!-- /.row -->
+	</div>
+	<!-- /.container-fluid -->
+
+</div>
+        <!-- /#page-wrapper -->
+
+{% endblock %}
