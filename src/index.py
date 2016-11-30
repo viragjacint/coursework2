@@ -42,6 +42,14 @@ def logs(app):
     app.logger.setLevel( app.config['log_level'] )
     app.logger.addHandler(file_handler)
 		
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template('404.html'), 404
+	
+@app.errorhandler(401)
+def page_not_found(error):
+	return render_template('401.html'), 404
+	
 
 @app.route('/')
 def root():
