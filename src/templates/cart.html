@@ -3,7 +3,7 @@
 <!-- Main Content -->
     <div class="container m-t-3">
       <div class="row">
-
+			
         <!-- Shopping Cart List -->
         <div class="col-md-12">
           <div class="title"><span>My Shopping Cart</span></div>
@@ -40,9 +40,10 @@
                   <td class="action">                    
                     <a href="{{ url_for('delete', id = item.ID ) }}" class="text-danger" data-toggle="tooltip" data-placement="top" data-original-title="Remove"><i class="fa fa-trash-o"></i></a>
                   </td>
-                </tr>
-				<p>Total:{{ z_total }} </p>
+                </tr>				
+							
 				{% endfor %}
+				
 				{% endif %}
               </tbody>
             </table>
@@ -50,8 +51,8 @@
           </div>
           <nav aria-label="Shopping Cart Next Navigation">
             <ul class="pager">
-              <li class="previous"><a href="products.html"><span aria-hidden="true">&larr;</span> Continue Shopping</a></li>
-              <li class="next"><a href="checkout.html">Proceed to Checkout <span aria-hidden="true">&rarr;</span></a></li>
+              <li class="previous"><a href="{{ url_for('product') }}"><span aria-hidden="true">&larr;</span> Continue Shopping</a></li>
+              <li class="next"><a href="#">Proceed to Checkout <span aria-hidden="true">&rarr;</span></a></li>
             </ul>
           </nav>
         </div>

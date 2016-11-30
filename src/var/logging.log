@@ -332,3 +332,13 @@ INFO | 2016-11-28 14:17:29,899 |  index | root | Logging a test message from /
 INFO | 2016-11-28 15:04:45,263 |  index | root | Logging a test message from /
 INFO | 2016-11-28 15:07:36,963 |  index | root | Logging a test message from /
 INFO | 2016-11-28 16:52:19,011 |  index | root | Logging a test message from /
+INFO | 2016-11-29 19:33:26,147 |  index | root | Logging a test message from /
+INFO | 2016-11-29 19:47:22,469 |  index | root | Logging a test message from /
+INFO | 2016-11-29 19:47:31,092 |  index | root | Logging a test message from /
+INFO | 2016-11-29 19:48:12,869 |  index | root | Logging a test message from /
+INFO | 2016-11-29 19:48:15,275 |  index | root | Logging a test message from /
+INFO | 2016-11-30 12:08:23,212 |  index | root | Logging a test message from /
+INFO | 2016-11-30 12:09:42,375 |  index | root | Logging a test message from /
+INFO | 2016-11-30 12:11:45,330 |  index | root | Logging a test message from /
+INFO | 2016-11-30 12:12:03,829 |  index | root | Logging a test message from /
+INFO | 2016-11-30 12:12:14,091 |  index | root | Logging a test message from /
