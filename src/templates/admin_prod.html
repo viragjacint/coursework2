@@ -9,6 +9,7 @@
 				<h1 class="page-header">
 					Products					
 				</h1>
+				<div style="padding-bottom:10px;"><a class="btn btn-default" href="{{ url_for('admin_add') }}">Add New</a></div>
 				<div class="table-responsive">			
 					<table class="table table-bordered table-cart">
 					  <thead>
@@ -26,7 +27,7 @@
 						<tr>
 						  <td>
 							<a href="{{ url_for('details', id=item.ID) }}">
-							  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}" class="img-thumbnail">
+							  <img alt="Product" src="{{ url_for('static', filename='img/product/'+item.product_image) }}" class="img-thumbnail" style="width:100px;">
 							</a>
 						  </td>
 						  <td>
@@ -39,7 +40,7 @@
 						  &pound;{{ item.product_price }}
 						  </td>
 						  <td>
-							<a href="{{ url_for('delete_cust', id = item.ID ) }}">Edit</a>
+							<a href="{{ url_for('admin_edit', id = item.ID ) }}">Edit</a>
 						  </td>
 						  <td>                    
 							<a href="{{ url_for('delete_prod', id = item.ID ) }}"><i class="fa fa-trash-o"></i></a>

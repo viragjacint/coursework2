@@ -179,7 +179,8 @@ def admin_prod():
 		sql = ('SELECT * FROM product_list')
 		connection = sqlite3.connect(app.config['db_location'])
 		connection.row_factory = sqlite3.Row     		
-		rows = connection.cursor().execute(sql).fetchall()		
+		rows = connection.cursor().execute(sql).fetchall()
+		connection.close()	
 		return render_template('admin_prod.html', rows = rows)	
 		
 @app.route('/admin_cust', methods=['GET', 'POST'])
@@ -190,7 +191,8 @@ def admin_cust():
 		sql = ('SELECT * FROM customers')
 		connection = sqlite3.connect(app.config['db_location'])
 		connection.row_factory = sqlite3.Row     		
-		rows = connection.cursor().execute(sql).fetchall()		
+		rows = connection.cursor().execute(sql).fetchall()
+		connection.close()	
 		return render_template('admin_cust.html', rows = rows)		
 
 @app.route('/delete_prod')
@@ -203,7 +205,8 @@ def delete_prod():
 		connection = sqlite3.connect(app.config['db_location'])
 		connection.row_factory = sqlite3.Row     		
 		connection.cursor().execute(sql, [get_id])
-		connection.commit()	
+		connection.commit()
+		connection.close()	
 		return redirect(url_for('admin_prod'))
 		
 @app.route('/delete_cust')
@@ -216,9 +219,55 @@ def delete_cust():
 		connection = sqlite3.connect(app.config['db_location'])
 		connection.row_factory = sqlite3.Row     		
 		connection.cursor().execute(sql, [get_id])
-		connection.commit()	
+		connection.commit()
+		connection.close()	
 		return redirect(url_for('admin_cust'))
-		
+			
+@app.route('/uploader', methods=['GET', 'POST'])
+def uploader():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		if request.method == 'POST':
+			img = request.files['img']					
+			img.save('static/img/product/'+img.filename)			
+			sql = ('INSERT INTO product_list (product_name,product_desc,product_price,product_image) VALUES (?,?,?,?)')		
+			connection = sqlite3.connect(app.config['db_location'])
+			connection.row_factory = sqlite3.Row     		
+			connection.cursor().execute(sql, (request.form['name'],request.form['description'],request.form['price'],img.filename))
+			connection.commit()
+			connection.close()	
+			return redirect(url_for('admin_prod'))
+			
+@app.route('/admin_edit')
+@app.route('/admin_edit/<id>')
+def admin_edit(id):
+	if not session.get('admin'):
+		abort(401)
+	else:				
+		sql = ('SELECT * FROM product_list WHERE id = ?')
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		rows = connection.cursor().execute(sql, [id]).fetchall()					
+		return render_template('admin_edit.html', rows = rows)
+	
+@app.route('/update', methods=['GET', 'POST'])
+def update():
+	if request.method == 'POST':	
+		sql = ('UPDATE product_list SET product_name = ?, product_desc = ?, product_price = ? WHERE id = ?')		
+		connection = sqlite3.connect(app.config['db_location'])
+		connection.row_factory = sqlite3.Row     		
+		connection.cursor().execute(sql, (request.form['name'],request.form['description'],request.form['price'],request.form['id']))
+		connection.commit()			
+		return redirect(url_for('admin_prod'))
+			
+@app.route('/admin_add')
+def admin_add():
+	if not session.get('admin'):
+		abort(401)
+	else:
+		return render_template('admin_add.html')			
+			
 @app.route('/product')
 def product():
 	sql = ('SELECT * FROM product_list')
